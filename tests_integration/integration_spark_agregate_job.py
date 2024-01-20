@@ -3,7 +3,7 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import col
 from exo2.aggregate.spark_agregate_job import computePopulationByDepartement
 
-spark = SparkSession.builder.master("local[*]").appName("IntegrationTestCJ").getOrCreate()
+spark = SparkSession.builder.master("local[*]").appName("IntegrationTestAgg").getOrCreate()
 
 def test_data():
     # Df de test

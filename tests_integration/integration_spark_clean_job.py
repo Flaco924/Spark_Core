@@ -1,28 +1,46 @@
 import pytest
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col
-from exo2.aggregate.spark_aggregate_job import computePopulationByDepartement
+from pyspark.sql.types import StructType, StructField, StringType, IntegerType
+from exo2.clean.spark_clean_job import joinClientsVilles, departement4Caracteres, specifiteCorse
 
-spark = SparkSession.builder.master("local[*]").appName("IntegrationTest").getOrCreate()
+spark = SparkSession.builder.appName("IntegrationTestClean").master("local[*]").getOrCreate()
 
-def test_data():
-    # Df de test
-    data = [("John", 25, "75001", "Paris", "75"),
-            ("Jane", 30, "13001", "Marseille", "13"),
-            ("Bob", 22, "69001", "Lyon", "69")]
+def test_integration(spark):
+    # Given
+    clients_data = [
+        ("Pierre", 25, "20190", "Ajaccio"),
+        ("Paul", 30, "97206", "Fort-de-France"),
+        ("Jacques", 22, "75001", "Paris")
+    ]
 
-    schema = ["name", "age", "zip", "city", "departement"]
+    villes_data = [
+        ("20190", "Ajaccio"),
+        ("97206", "Fort-de-France"),
+        ("75001", "Paris")
+    ]
 
-    test_df = spark.createDataFrame(data, schema=schema)
+    clients_df = spark.createDataFrame(clients_data, ["name", "age", "zip", "city"])
+    villes_df = spark.createDataFrame(villes_data, ["zip", "city"])
 
-    return test_df
+    # When
+    joined_df = joinClientsVilles(clients_df, villes_df)
+    df_with0 = departement4Caracteres(joined_df)
+    df_departement = df_with0.withColumn("departement", df_with0["zip"].substr(1, 2))
+    df_outre_mer = df_departement.withColumn("departement", when(df_departement["departement"] == "97", substring(df_departement["zip"], 1, 3)) \
+                              .otherwise(df_departement["departement"]))
+    df_finale = specifiteCorse(df_outre_mer)
 
-def test_compute_population_by_departement(test_data):
-    result_df = computePopulationByDepartement(test_data)
+    # Then
+    expected_data = [
+        ("Pierre", 25, "20190", "Ajaccio", "2A"),
+        ("Paul", 30, "97206", "Fort-de-France", "972"),
+        ("Jacques", 22, "75001", "Paris", "75")
+    ]
 
-    # Vérif
-    expected_data = [("13", 1), ("69", 1), ("75", 1)]
-    expected_schema = ["departement", "nb_people"]
-    expected_df = spark.createDataFrame(expected_data, schema=expected_schema)
+    expected_df = spark.createDataFrame(expected_data, ["name", "age", "zip", "city", "departement"])
 
-    assert result_df.collect() == expected_df.collect()
+    assert df_finale.orderBy("zip").collect() == expected_df.orderBy("zip").collect()
+
+# Exécution
+test_integration(spark)
