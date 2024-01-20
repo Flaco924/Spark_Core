@@ -7,17 +7,14 @@ clients_df = spark.read.csv("src/resources/exo2/clients_bdd.csv", header=True, i
 villes_df = spark.read.csv("src/resources/exo2/city_zipcode.csv", header=True, inferSchema=True)
 
 def joinClientsVilles(clients_majeurs_df, villes_df):
-    # Joindre les clients avec les villes
     joined_df = clients_majeurs_df.join(villes_df, clients_majeurs_df["zip"] == villes_df["zip"], "left")
     villes_df = villes_df.withColumnRenamed("zip", "ville_zip")
 
-    # Joindre les clients avec les villes
     joined_df = clients_majeurs_df.join(villes_df, clients_majeurs_df["zip"] == villes_df["ville_zip"], "left")
 
     return joined_df
 
 def departement4Caracteres(df):
-    # Ajouter le caractère "0" avant les départements avec 4 caractères
     df = df.withColumn(
         "zip",
         when(length(df["zip"]) == 4, concat(lit("0"), df["zip"]))
@@ -27,7 +24,6 @@ def departement4Caracteres(df):
     return df
 
 def specifiteCorse(df):    
-    # Ajouter une colonne "departement" avec condition pour le département 20
     df = df.withColumn(
         "departement",
         when((df["departement"] == "20") & (df["zip"] <= 20190), "2A") \
@@ -47,10 +43,10 @@ if __name__ == "__main__":
     # Appeler la fonction pour ajouter un 0 avant les départements de 4 caractères
     df_with0 = departement4Caracteres(joined_df)
 
-    # Ajouter une colonne "departement" avec condition
+    # Ajouter une colonne "departement" avec les 2 premiers caractères de zip
     df_departement = df_with0.withColumn("departement", df_with0["zip"].substr(1, 2))
 
-    # Ajout de chiffre pour le département 97
+    # Ajout de chiffre pour les départements d'outre-mer
     df_outre_mer = df_departement.withColumn("departement", when(df_departement["departement"] == "97", substring(df_departement["zip"], 1, 3)) \
                               .otherwise(df_departement["departement"]))
 
