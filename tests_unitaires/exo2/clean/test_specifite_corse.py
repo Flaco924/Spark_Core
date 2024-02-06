@@ -1,7 +1,7 @@
 import unittest
 from pyspark.sql import SparkSession
 from pyspark.sql import Row
-from exo2.clean.spark_clean_job import specifiteCorse
+from ..exo2.clean.spark_clean_job import specifiteCorse
 
 class SpecifiteCorseTest(unittest.TestCase):
     spark = SparkSession.builder.master("local[*]").appName("Test").getOrCreate()

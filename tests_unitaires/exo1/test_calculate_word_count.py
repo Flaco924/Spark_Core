@@ -1,7 +1,7 @@
 import unittest
 from pyspark.sql import SparkSession
 from pyspark.sql import Row
-from exo1.word_count import calculate_word_count
+from ..exo1.word_count import calculate_word_count
 
 class CalculateWordCountTest(unittest.TestCase):
     spark = SparkSession.builder.master("local[*]").appName("Test").getOrCreate()

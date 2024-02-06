@@ -1,7 +1,7 @@
 import unittest
 from pyspark.sql import SparkSession
 from pyspark.sql import Row
-from exo2.aggregate.spark_agregate_job import computePopulationByDepartement
+from ..exo2.aggregate.spark_agregate_job import computePopulationByDepartement
 
 class ComputePopulationByDepartementErrorTest(unittest.TestCase):
     spark = SparkSession.builder.master("local[*]").appName("Test").getOrCreate()

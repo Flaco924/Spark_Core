@@ -2,7 +2,7 @@ import pytest
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col
 from pyspark.sql.types import StructType, StructField, StringType, IntegerType
-from exo2.clean.spark_clean_job import joinClientsVilles, departement4Caracteres, specifiteCorse
+from ..exo2.clean.spark_clean_job import joinClientsVilles, departement4Caracteres, specifiteCorse
 
 spark = SparkSession.builder.appName("IntegrationTestClean").master("local[*]").getOrCreate()
 

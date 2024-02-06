@@ -1,7 +1,7 @@
 import pytest
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col
-from exo2.aggregate.spark_agregate_job import computePopulationByDepartement
+from ..exo2.aggregate.spark_agregate_job import computePopulationByDepartement
 
 spark = SparkSession.builder.master("local[*]").appName("IntegrationTestAgg").getOrCreate()
 
