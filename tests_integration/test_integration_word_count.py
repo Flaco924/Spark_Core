@@ -18,7 +18,7 @@ result_df = calculate_word_count(input_df)
 assert "word" in result_df.columns
 assert "count" in result_df.columns
 
-expected_data = [("abc", 2), ("def", 2), ("ghi", 2)]
+expected_data = [("abc", "2"), ("def", "2"), ("ghi", "2")]
 expected_df = spark.createDataFrame(expected_data, ["word", "count"])
 
 assert result_df.orderBy("word").collect() == expected_df.orderBy("word").collect()

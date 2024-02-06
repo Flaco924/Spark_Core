@@ -9,9 +9,9 @@ spark = SparkSession.builder.appName("IntegrationTestClean").master("local[*]").
 def test_integration(spark):
     # Given
     clients_data = [
-        ("Pierre", 25, "20190", "Ajaccio"),
-        ("Paul", 30, "97206", "Fort-de-France"),
-        ("Jacques", 22, "75001", "Paris")
+        ("Pierre", "25", "20190", "Ajaccio"),
+        ("Paul", "30", "97206", "Fort-de-France"),
+        ("Jacques", "22", "75001", "Paris")
     ]
 
     villes_data = [
