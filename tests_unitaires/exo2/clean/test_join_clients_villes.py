@@ -1,7 +1,7 @@
 import unittest
 from pyspark.sql import SparkSession
 from pyspark.sql import Row
-from src.exo2.clean.spark_clean_job import join_clients_villes
+from src.exo2.clean.spark_clean_job import joinClientsVilles
 
 class JoinClientsVillesTest(unittest.TestCase):
     spark = SparkSession.builder.master("local[*]").appName("Test").getOrCreate()
@@ -15,7 +15,7 @@ class JoinClientsVillesTest(unittest.TestCase):
         villes_df = self.spark.createDataFrame(villes_data, ["zip", "city"])
 
         # When
-        actual = join_clients_villes(clients_df, villes_df)
+        actual = joinClientsVilles(clients_df, villes_df)
 
         # Then
         expected = self.spark.createDataFrame([Row(name="John", age=25, zip="12345", city="Paris"),
