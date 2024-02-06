@@ -1,7 +1,7 @@
 import unittest
 from pyspark.sql import SparkSession
 from pyspark.sql import Row
-from ..exo2.clean.spark_clean_job import departement4Caracteres
+from src.exo2.clean.spark_clean_job import departement4Caracteres
 
 class Departement4CaracteresTest(unittest.TestCase):
     spark = SparkSession.builder.master("local[*]").appName("Test").getOrCreate()

@@ -2,7 +2,7 @@ import pytest
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col
 from pyspark.sql.types import StructType, StructField, StringType, IntegerType
-from ..exo1.word_count import calculate_word_count
+from src.exo1.word_count import calculate_word_count
 
 spark = SparkSession.builder.appName("IntegrationTestWC").master("local[*]").getOrCreate()
 
