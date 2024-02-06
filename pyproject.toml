@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "Résolvez les exercices"
 authors = ["Franck Cussac"]
 packages = [
-    { include = "src/fr/hymaia" }
+    { include = "src" }
 ]
 
 [tool.poetry.dependencies]
