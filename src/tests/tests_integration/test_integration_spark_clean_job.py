@@ -33,9 +33,9 @@ def test_integration(spark):
 
     # Then
     expected_data = [
-        ("Pierre", 25, "20190", "Ajaccio", "2A"),
-        ("Paul", 30, "97206", "Fort-de-France", "972"),
-        ("Jacques", 22, "75001", "Paris", "75")
+        ("Pierre", "25", "20190", "Ajaccio", "2A"),
+        ("Paul", "30", "97206", "Fort-de-France", "972"),
+        ("Jacques", "22", "75001", "Paris", "75")
     ]
 
     expected_df = spark.createDataFrame(expected_data, ["name", "age", "zip", "city", "departement"])

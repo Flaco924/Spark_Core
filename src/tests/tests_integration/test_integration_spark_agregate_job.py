@@ -7,9 +7,9 @@ spark = SparkSession.builder.master("local[*]").appName("IntegrationTestAgg").ge
 
 def test_data():
     # Df de test
-    data = [("John", 25, "75001", "Paris"),
-            ("Jane", 30, "13001", "Marseille"),
-            ("Bob", 22, "69001", "Lyon")]
+    data = [("John", "25", "75001", "Paris"),
+            ("Jane", "30", "13001", "Marseille"),
+            ("Bob", "22", "69001", "Lyon")]
 
     schema = ["name", "age", "zip", "city"]
 
@@ -22,7 +22,7 @@ def test_compute_population_by_departement(test_data):
 
     # Vérif
     expected_data = [("13001", 1), ("69001", 1), ("75001", 1)]
-    expected_schema = ["departement", "nb_people"]
+    expected_schema = ["depaartement", "nb_people"]
     expected_df = spark.createDataFrame(expected_data, schema=expected_schema)
 
     assert result_df.collect() == expected_df.collect()
