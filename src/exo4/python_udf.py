@@ -1,5 +1,5 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import col, udf
+from pyspark.sql.functions import *
 from pyspark.sql.types import StringType, IntegerType
 
 def main():
