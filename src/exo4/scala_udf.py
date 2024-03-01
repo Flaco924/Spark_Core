@@ -2,7 +2,8 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import *
 from pyspark.sql.types import StringType, IntegerType
 from pyspark.sql.column import Column, _to_java_column, _to_seq
-from spark import spark
+
+spark = SparkSession.builder.appName("UDF").master("local[*]").config('spark.jars', 'src/resources/exo4/udf.jar').getOrCreate()
 
 data_path = "src/resources/exo4/sell.csv/*"
 df = spark.read.option("header", "true").csv(data_path)
