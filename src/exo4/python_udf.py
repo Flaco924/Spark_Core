@@ -27,7 +27,7 @@ def main():
 
     end_time = time.time()
     execution_time = end_time - start_time
-    print("Temps d'exécution:", execution_time, "secondes")
+    print("Temps d'exécution python_udf :", execution_time, "secondes")
 
 if __name__ == "__main__":
     main()

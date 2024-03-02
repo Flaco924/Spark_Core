@@ -1,6 +1,7 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, when
 import time
+from pyspark.sql.window import Window
 
 def main():
     spark = SparkSession.builder \
@@ -19,7 +20,18 @@ def main():
 
     end_time = time.time()
     execution_time = end_time - start_time
-    print("Temps d'exécution:", execution_time, "secondes")
+    print("Temps d'exécution no_udf :", execution_time, "secondes")
+
+    def windows(df):
+        # Définition de la fenêtre pour la somme des prix par catégorie et par jour
+        window = Window.partitionBy('category_name', 'date')
+        df = df.withColumn('total_price_per_category_per_day', sum('price').over(window))
+
+        # Définition de la fenêtre glissante de 30 jours pour la somme des prix par catégorie
+        window_30_days = Window.partitionBy('category_name', 'date').rowsBetween(-30, 0)
+        df = df.withColumn('total_price_per_category_per_day_last_30_days', sum('price').over(window_30_days))
+
+    df = windows(df)
 
 if __name__ == "__main__":
     main()
