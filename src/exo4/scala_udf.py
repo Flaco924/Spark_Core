@@ -28,6 +28,7 @@ def main():
 
     # Ajouter la nouvelle colonne en utilisant l'UDF Scala
     df = df.withColumn("category_name", addCategoryName(col("category")))
+    df.write('src/resources/outputs_exo4/scala_udf_result')
 
     end_time = time.time()
     execution_time = end_time - start_time

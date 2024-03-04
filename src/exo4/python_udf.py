@@ -24,6 +24,7 @@ def main():
 
     categorize_category_udf = udf(categorize_category, StringType())
     df = df.withColumn("category_name", categorize_category_udf(df["category"]))
+    df.write('src/resources/outputs_exo4/python_udf_result')
 
     end_time = time.time()
     execution_time = end_time - start_time

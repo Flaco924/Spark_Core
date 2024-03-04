@@ -17,6 +17,7 @@ def main():
 
     # Ajouter la nouvelle colonne avec des conditions
     df = df.withColumn("category_name", when(col("category") < 6, "food").otherwise("furniture"))
+    df.write('src/resources/outputs_exo4/no_udf_result')
 
     end_time = time.time()
     execution_time = end_time - start_time
